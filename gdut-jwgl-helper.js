@@ -22,10 +22,11 @@ var user = {
 
 //获取用户信息
 function LoadSettings() {
-    user.name = localStorage['name'];
-    user.password = localStorage['password'];
-    user.is_autologin = parseInt(localStorage['is_autologin'], 10) || 0;
-    user.login_time = parseInt(localStorage['login_time'], 10) || 0;
+    user.name = localStorage.getItem('name');
+    user.password = localStorage.getItem('password');
+    user.is_autologin = parseInt(localStorage.getItem('is_autologin'), 10) ||
+                        0;
+    user.login_time = parseInt(localStorage.getItem('login_time'), 10) || 0;
     // 如果登录次数为0，即使name和password是有的，也说明之前没成功登录
     if (user.name && user.password && user.login_time > 0) {
         user.need_setup = false;
@@ -68,7 +69,7 @@ function ShowSettings() {
 
 //保存配置信息
 function _save_user_settings() {
-    for (prop in user) {
+    for (var prop in user) {
         localStorage.setItem(prop, user[prop]);
     }
 }
@@ -145,7 +146,7 @@ function FillCaptcha()
     if (!default2.test(url)) return;
     var imgs = document.getElementsByTagName("img");
     var image = imgs[3];
-    image.onload = function(){
+    $(image).ready(function(){
         var canvas = document.createElement('canvas');                 
         var ctx = canvas.getContext("2d");                 
         var numbers = [
@@ -186,7 +187,7 @@ function FillCaptcha()
                 document.getElementById("Button1").click();
             }
         }
-    };
+    });
 }
 
 
